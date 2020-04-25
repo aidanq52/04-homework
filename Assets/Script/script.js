@@ -24,6 +24,44 @@ var responses= [question1= ["Agoraphobia","Nomophobia","Technophobia","Cyberphob
 
 var answers = [1,0,3,0,2]
 
+var i = 0; 
+
+
+//validate function
+function validate(e){
+    console.log("we gonna list this validate one too!")
+    console.log(e.target.dataset.index);
+    console.log(answers[i]);
+    console.log(i);
+
+    if(parseInt(e.target.dataset.index) === answers[i]){
+
+        i++;
+        renderQuestion();
+        console.log("i is = " + i);
+    }
+    else{
+        i++;
+        subtractTime();
+        renderQuestion();
+        console.log("i is = " + i);
+    }
+
+}
+
+function renderQuestion(){
+    if(i===5){
+        endquiz();
+        return;
+    }
+    questionContent.text(questions[i]);
+    option0.text(responses[i][0]);
+    option1.text(responses[i][1]);
+    option2.text(responses[i][2]);
+    option3.text(responses[i][3]);
+
+}
+
 //function for starting
 function begin(){
 
@@ -35,130 +73,21 @@ function begin(){
 
     $('#start-div').html('')
 
+
     hideDiv.css("visibility", "visible")
 
-    option0.text(responses[0][0])
-    option1.text(responses[0][1])
-    option2.text(responses[0][2])
-    option3.text(responses[0][3])
+    renderQuestion();
 
-    //correct answer
-    option1.on('click', secondquestion)
-    
-    //incorrect answers
-    option0.on('click', subtractTime)
-    option0.on('click', secondquestion)
-
-    option2.on('click', subtractTime)
-    option2.on('click', secondquestion)
-
-    option3.on('click', subtractTime)
-    option3.on('click', secondquestion)
-
-}
-
-//functions for clicking through the proceeding buttons
-function secondquestion(){
-
-    questionContent.text(questions[1]);
-
-    option0.text(responses[1][0])
-    option1.text(responses[1][1])
-    option2.text(responses[1][2])
-    option3.text(responses[1][3])
-
-    //correct answers
-    option0.on('click', thirdquestion)
-
-    //incorrect answers
-    option1.on('click', subtractTime)
-    option1.on('click', thirdquestion)
-
-    option2.on('click', subtractTime)
-    option2.on('click', thirdquestion)
-
-    option3.on('click', subtractTime)
-    option3.on('click', thirdquestion)
-
-}
-
-function thirdquestion(){
-
-    questionContent.text(questions[2]);
-
-    option0.text(responses[2][0])
-    option1.text(responses[2][1])
-    option2.text(responses[2][2])
-    option3.text(responses[2][3])
-
-    //correct answer
-    option3.on('click', fourthquestion)
-
-    //incorrect answers
-    option0.on('click', subtractTime)
-    option0.on('click', fourthquestion)
-
-    option1.on('click', subtractTime)
-    option1.on('click', fourthquestion)
-
-    option2.on('click', subtractTime)
-    option2.on('click', fourthquestion)
-
-}
-
-function fourthquestion(){
-
-    questionContent.text(questions[3]);
-
-    option0.text(responses[3][0])
-    option1.text(responses[3][1])
-    option2.text(responses[3][2])
-    option3.text(responses[3][3])
-
-    //correct answer
-    option0.on('click', fifthquestion)
-
-    //incorrect answer
-    option1.on('click', subtractTime)
-    option1.on('click', fifthquestion)
-
-    option2.on('click', subtractTime)
-    option2.on('click', fifthquestion)
-
-    option3.on('click', subtractTime)
-    option3.on('click', fifthquestion)
-
-}
-
-function fifthquestion(){
-
-    questionContent.text(questions[4]);
-
-    option0.text(responses[4][0])
-    option1.text(responses[4][1])
-    option2.text(responses[4][2])
-    option3.text(responses[4][3])
-
-    //correct answer
-    option2.on('click', endquiz)
-
-    //incorrect answer
-    option0.on('click', subtractTime)
-    option0.on('click', endquiz)
-
-    option1.on('click', subtractTime)
-    option1.on('click', endquiz)
-
-    option3.on('click', subtractTime)
-    option3.on('click', endquiz)
-
-    
+    hideDiv.on('click', validate)
 
 }
 
 //function to end quiz
 function endquiz(){
+
     questionDiv.html('<h2>Phew its over, what a weird quiz')
+    renderScores()
+    
 }
 
 //linking the start button to the click event that starts this whole thing rolling
@@ -177,12 +106,24 @@ function setTime(){
         clearInterval(timerInterval)
         endquiz()
     }
-    console.log(timeRemaining)
+    // console.log(timeRemaining)
     }, 1000)
     return timeRemaining
 }
 
 function subtractTime(){
     timeRemaining = timeRemaining - 10;
+    console.log("were subtracting time for that!")
     return timeRemaining
 }
+
+
+// //local storage and displaying high scores
+
+// localStorage.setItem("test", test)
+
+// function renderScores(){
+//     $('.row').append('<div class="col-sm-2" id="scores">')
+//     $('#scores').text(localStorage.getItem("test"))
+
+// }
