@@ -12,7 +12,7 @@ var hideDiv= $('#hide')
 var questions=["What is the fear of not having a phone called?",
                 "In 1982, the computer was named person of the year by Time magazine, which other Inaminate object has been named Time Person of the Year?",
                 "the earth is a geoid, what is the furthest point from the center of the earth",
-                "Philosopher John locke argued in 1989 that society exists for the sake of protecting Life, Liberty, and...",
+                "Philosopher John locke argued in 1689 that society exists for the sake of protecting Life, Liberty, and...",
                 "Who is the best skiier on the mountain?"]
 
 var responses= [question1= ["Agoraphobia","Nomophobia","Technophobia","Cyberphobia"],
@@ -29,22 +29,16 @@ var i = 0;
 
 //validate function
 function validate(e){
-    console.log("we gonna list this validate one too!")
-    console.log(e.target.dataset.index);
-    console.log(answers[i]);
-    console.log(i);
 
     if(parseInt(e.target.dataset.index) === answers[i]){
 
         i++;
         renderQuestion();
-        console.log("i is = " + i);
     }
     else{
         i++;
         subtractTime();
         renderQuestion();
-        console.log("i is = " + i);
     }
 
 }
@@ -84,10 +78,87 @@ function begin(){
 
 //function to end quiz
 function endquiz(){
+    setTime()
+    questionContent.html('<h2>Phew its over, what a weird quiz')
+    console.log("index: " + i)
+    console.log(timeRemaining)
+    hideDiv.html('<p id= "score"> SCORE: ')
+    score = timeRemaining - 2
+    $('#score').append(score)
+    $('.form-group').css('visibility', 'visible');
+    $('.col-sm-2').css("visibility", "visible");
+    init();
 
-    questionDiv.html('<h2>Phew its over, what a weird quiz')
-    renderScores()
+    hideDiv.on('click', )
     
+}
+
+//submitting scores to local storage
+var initials = [];
+var scores =[];
+
+$('#leaderboard').on('click', function(event){
+    event.preventDefault();
+
+    var initialText = $('#initials').value.trim();
+    var scoreText = timeRemaining
+
+    if (initialText === ""){
+        return;
+    }
+
+    initials.push(initialText);
+    scores.push(scoreText);
+
+    storeInitials()
+    storeScores()
+
+    renderScores()
+
+})
+
+function storeInitials(){
+    localStorage.setItem("Initials", JSON.stringify(initials));
+}
+
+function storeScores(){
+    localStorage.setItem("Scores", JSON.stringify(scores));
+}
+
+function renderInitials(){
+    $('#initials').html('');
+    for(var j = 0; j < initials.length; j++){
+        var listInitial = initials[j];
+        
+        var li = $('#initials').append('<li>')
+        li.textContent = listInitial;
+    }
+
+}
+
+function renderScores(){
+    $('#stored-scores').html('');
+    for(var k=0; k < scores.length; k++){
+        var listScore = scores[k];
+
+        var li=$('#stored-scores').append('<li>');
+        li.textContent = listScore;
+    }
+}
+
+function init(){
+    var storedScores = JSON.parse(localStorage.getItem("Scores"));
+    if (storedScores !== null){
+        listInitial = storedScores;
+    }
+    renderScores()
+
+    var storedInitials = JSON.parse(localStorage.getItem("Initials"));
+    if (storedScores !== null){
+        listInitial = storedInitials;
+    }
+    renderInitials()
+
 }
 
 //linking the start button to the click event that starts this whole thing rolling
@@ -99,16 +170,22 @@ timer = $('#timer')
 timeRemaining=60;
 
 function setTime(){
+
+
     var timerInterval = setInterval(function(){
         timeRemaining--;
         timer.text(timeRemaining)
     if (timeRemaining <= 0){
         clearInterval(timerInterval)
         endquiz()
+        return;
+    } else if (i===5){
+        clearInterval(timerInterval);
+        return;
     }
-    // console.log(timeRemaining)
     }, 1000)
     return timeRemaining
+
 }
 
 function subtractTime(){
@@ -116,14 +193,3 @@ function subtractTime(){
     console.log("were subtracting time for that!")
     return timeRemaining
 }
-
-
-// //local storage and displaying high scores
-
-// localStorage.setItem("test", test)
-
-// function renderScores(){
-//     $('.row').append('<div class="col-sm-2" id="scores">')
-//     $('#scores').text(localStorage.getItem("test"))
-
-// }
