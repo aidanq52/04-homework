@@ -140,6 +140,14 @@ button{
     visibility: hidden;
 }
 
-.col-sm-2{
+.col-sm-3{
     visibility: hidden;
+}
+
+#scoresList{
+    float: left;
+}
+
+#initialsList{
+    float: left;
 }

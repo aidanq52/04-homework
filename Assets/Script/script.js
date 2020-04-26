@@ -86,7 +86,7 @@ function endquiz(){
     score = timeRemaining - 2
     $('#score').append(score)
     $('.form-group').css('visibility', 'visible');
-    $('.col-sm-2').css("visibility", "visible");
+    $('.col-sm-3').css("visibility", "visible");
 
     hideDiv.on('click', )
     
