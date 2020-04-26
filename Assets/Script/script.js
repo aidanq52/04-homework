@@ -100,8 +100,13 @@ var scores =[];
 $('#leaderboard').on('click', function(event){
     event.preventDefault();
 
+    var scoreText = timeRemaining - 2;
+
+        console.log(scoreText);
+
     var initialText = $('#initials').value.trim();
-    var scoreText = timeRemaining
+  
+    console.log(initials); 
 
     if (initialText === ""){
         return;
@@ -130,7 +135,7 @@ function renderInitials(){
     for(var j = 0; j < initials.length; j++){
         var listInitial = initials[j];
         
-        var li = $('#initials').append('<li>')
+        var li = $('#initialsList').append('<li>')
         li.textContent = listInitial;
     }
 
