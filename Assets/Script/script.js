@@ -184,7 +184,7 @@ function renderInitials(){
         
         console.log(listInitial);
 
-        var li = $('#initialsList').append('<li>' + listInitial)
+        var li = $('#initialsList').prepend('<li>' + listInitial)
 
     }
 
@@ -197,7 +197,7 @@ function renderScores(){
 
         console.log(listScore);
 
-        var li=$('#scoresList').append('<li>' + listScore);
+        var li=$('#scoresList').prepend('<li>' + listScore);
 
     }
 }
