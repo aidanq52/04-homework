@@ -87,7 +87,6 @@ function endquiz(){
     $('#score').append(score)
     $('.form-group').css('visibility', 'visible');
     $('.col-sm-2').css("visibility", "visible");
-    init();
 
     hideDiv.on('click', )
     
@@ -97,74 +96,112 @@ function endquiz(){
 var initials = [];
 var scores =[];
 
+
+
 $('#leaderboard').on('click', function(event){
     event.preventDefault();
 
-    var scoreText = timeRemaining - 2;
+    // localStorage.removeItem("Initials");
+    // localStorage.removeItem("Scores");
 
-        console.log(scoreText);
+    var scoreText = timeRemaining;
+    var initialText = $('#initials').val().trim();
 
-    var initialText = $('#initials').value.trim();
-  
-    console.log(initials); 
 
     if (initialText === ""){
         return;
     }
 
+    init();
+
+        console.log(initials);
+        console.log(scores);
+
     initials.push(initialText);
     scores.push(scoreText);
 
-    storeInitials()
-    storeScores()
 
-    renderScores()
+    console.log(initials);
+    console.log(scores);
 
+
+    storeInitials();
+    storeScores();
+
+    console.log(initials);
+    console.log(scores);
+
+
+
+    renderInitials();
+    renderScores();
+
+
+    console.log(initials);
+    console.log(scores);
+
+    $('#leaderboard').css('visibility', 'hidden');
 })
+
 
 function storeInitials(){
     localStorage.setItem("Initials", JSON.stringify(initials));
 }
 
+
 function storeScores(){
     localStorage.setItem("Scores", JSON.stringify(scores));
 }
 
+function init(){
+
+    var InitialRaw = localStorage.getItem("Initials");
+    var storedInitials = JSON.parse(localStorage.getItem("Initials"));
+    if (storedInitials !== null){
+        initials = storedInitials;
+    }
+
+        console.log(storedInitials);
+
+    // renderInitials()
+
+    var storedScores = JSON.parse(localStorage.getItem("Scores"));
+    if (storedScores !== null){
+        scores = storedScores;
+    }
+        console.log(storedScores);
+
+    // renderScores()
+
+
+}
+
+
 function renderInitials(){
-    $('#initials').html('');
+    $('#initialList').html('');
     for(var j = 0; j < initials.length; j++){
         var listInitial = initials[j];
         
-        var li = $('#initialsList').append('<li>')
-        li.textContent = listInitial;
+        console.log(listInitial);
+
+        var li = $('#initialsList').append('<li>' + listInitial)
+
     }
 
 }
 
 function renderScores(){
-    $('#stored-scores').html('');
+    $('#scoresList').html('');
     for(var k=0; k < scores.length; k++){
         var listScore = scores[k];
 
-        var li=$('#stored-scores').append('<li>');
-        li.textContent = listScore;
+        console.log(listScore);
+
+        var li=$('#scoresList').append('<li>' + listScore);
+
     }
 }
 
-function init(){
-    var storedScores = JSON.parse(localStorage.getItem("Scores"));
-    if (storedScores !== null){
-        listInitial = storedScores;
-    }
-    renderScores()
-
-    var storedInitials = JSON.parse(localStorage.getItem("Initials"));
-    if (storedScores !== null){
-        listInitial = storedInitials;
-    }
-    renderInitials()
-
-}
 
 //linking the start button to the click event that starts this whole thing rolling
 $('#start-button').on('click', begin)
