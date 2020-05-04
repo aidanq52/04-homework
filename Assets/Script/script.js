@@ -213,7 +213,6 @@ timeRemaining=60;
 
 function setTime(){
 
-
     var timerInterval = setInterval(function(){
         timeRemaining--;
         timer.text(timeRemaining)
